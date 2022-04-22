@@ -1,11 +1,4 @@
 # Exercises 2
-_input_arr=[1, 2, 3, 1]
-_output_arr=[]
-_input_arr.each do |x|
-	if x%2 == 0
-		_output_arr=_output_arr+['even']
-	else
-		_output_arr=_output_arr+['odd']
-	end
-end
-p _output_arr
+input_arr=[1, 2, 3, 1]
+output_arr=input_arr.map{|i| i%2==0? "even" : "old"}
+p output_arr
