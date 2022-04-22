@@ -16,15 +16,15 @@ loop do
     p "Your grade:"
     case 
     when score >= 9 
-        p "A"
+      p "A"
     when score >= 8 
-        p "B"
+      p "B"
     when score >= 7 
-        p "C"
+      p "C"
     when score >= 6 
-        p "D"
+      p "D"
     else 
-        p "F"
+      p "F"
     end    
     break
   end
