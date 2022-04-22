@@ -6,16 +6,13 @@ return false if every element is distinct.
 
 =end
 
-array = [1, 2, 3, 4]
-
-i = 0
+array = [1, 2, 3, 4, 3]
 flat = false
-
-array.each do |x|
-    i = i+1
-    for y in i..array.length-1
-        flat = true if x == array[y]
-    end
+array.each do |x| 
+  if array.count(x) > 1 
+    flat = true
+    break
+  end
 end
 
 p flat

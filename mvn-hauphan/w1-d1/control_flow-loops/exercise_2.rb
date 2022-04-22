@@ -8,10 +8,6 @@ Output: ['odd', 'even', 'odd', 'odd']
 
 array = [1,2,3,1]
 
-convert_array = []
-
-array.each do |x|
-    x%2 == 0? convert_array.push("even") : convert_array.push("odd")
-end
-
-p convert_array
+array.map! { |x| x.even? ? "even" : "odd" } 
+  
+p array

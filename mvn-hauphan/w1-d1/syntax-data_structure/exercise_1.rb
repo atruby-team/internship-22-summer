@@ -11,16 +11,16 @@ Tạo 1 phương thức trong đó thực hiện các việc nhập từ bàn ph
 =end
 
 def daily_report 
-    p "Enter name please:"
-    name = gets.chomp
-    p "Enter age please:"
-    age = gets.chomp
-    p "Enter the content learned today"
-    content = gets.chomp
-    p "Daily Report #{Time.now}" 
-    p "Tên: #{name}"
-    p "Tuổi: #{age}"
-    p "Nội dung: #{content}"
+  p "Enter name please:"
+  name = gets.chomp
+  p "Enter age please:"
+  age = gets.chomp
+  p "Enter the content learned today"
+  content = gets.chomp
+  p "Daily Report #{Time.now}" 
+  p "Tên: #{name}"
+  p "Tuổi: #{age}"
+  p "Nội dung: #{content}"
 end
 
 daily_report
