@@ -1,9 +1,11 @@
 # Exercises 4
 def Exercises4(input)
-  status=[]
-  input.each do |i| 
-  if input.count(i) >= 2
-    return status=status+["True"]
+  input.each do |idx|
+    if input.count(idx) >= 2 
+      return true
+    else
+      return false
+    end
   end
 end
 input1 = [1, 2, 3, 1]
