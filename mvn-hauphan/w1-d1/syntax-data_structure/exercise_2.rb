@@ -34,3 +34,8 @@ def change_lecturer_name(data, name, new_name)
   data[new_name] = data.delete(name) if data.key?(name)
   p data
 end
+
+show_list_areas_of_interest(data, "Paul Barry")
+show_list_areas_of_interest(data, "Nigel Whyte")
+remove_lecturer(data, "Gerry Moloney")
+change_lecturer_name(data, "Austin Kinsella", "Howard Williams")

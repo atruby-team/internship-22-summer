@@ -6,7 +6,7 @@ Output: ['odd', 'even', 'odd', 'odd']
 
 =end
 
-array = [1,2,3,1]
+array = [1, 2, 3, 1]
 
 array.map! { |x| x.even? ? "even" : "odd" } 
   
