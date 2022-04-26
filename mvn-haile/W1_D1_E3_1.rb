@@ -1,7 +1,7 @@
 # Exercise 1
 loop do
   input = gets.chomp.to_i
-  if nput >= 9 && input <= 10 
+  if input >= 9 && input <= 10 
     p "A"
   elsif input >= 8 && input < 9
     p "B"
