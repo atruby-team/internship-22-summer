@@ -48,13 +48,14 @@ class Dictionary
     if @vocabularies.key?(vocab)
       false
     else
-      @vocabularies[vocab] = desc
+      @vocabularies.store(vocab, [desc, 0])
       true
     end
   end
 
   def lookup(vocab)
-    @vocabularies[vocab]
+    @vocabularies[vocab][1] += 1
+    @vocabularies[vocab][0]
   end
 
   def remove(vocab)
@@ -71,10 +72,39 @@ class Dictionary
   end
 
   def pop
-
+    hash = {}
+    array = []
+    if @vocabularies.empty?
+      return nil
+    else
+      array.push(@vocabularies.to_a.pop)
+      @vocabularies.delete(array[0][0])
+      hash[array[0][0]] = array[0][1][0]
+      hash
+    end
   end
 
   def update(vocab, desc)
+    @vocabularies.delete(vocab)
+    @vocabularies.store(vocab, [desc, 0])
+    true
+  end
+
+  def random
+    hash = {}
+    array = []
+    array.push(@vocabularies.keys.shuffle[0], @vocabularies[@vocabularies.keys.shuffle[0]]) 
+    hash[array[0][0]] = array[0][1][0]
+  end
+
+  def favorite
+    array = []
+    result = []
+    hash = {}
+    @vocabularies.each { |k, v| array.push(v[1]) }
+    @vocabularies.each { |k, v| result.push([k, v[0]]) if v[1] == array.max }
+    hash[result[0][0]] = result[0][1]
+    hash
   end
 
 end
@@ -82,11 +112,21 @@ end
 dict = Dictionary.new
 p dict.add("Hello", "Xin chào") # true
 p dict.add("Goodbye", "Tạm biệt") # true
-p dict
-p dict.add("Hello", "Xin chào") # true
-p dict.add("Goodbye", "Tạm biệt") # true
+p dict.add("Hello", "Xin chào") # false
+p dict.add("Goodbye", "Chào tạm biệt") # false
 p dict.lookup("Goodbye") # "Tạm biệt"
 p dict.add("Love", "Tình yêu") #true
 p dict.size # 3
 p dict.remove("Love") # true
 p dict.remove("Love") # false
+p dict.favorite # "Goodbye" => "Tạm biệt"
+p dict.add("Love", "Tình yêu") #true
+p dict.update("Goodbye", "Chào tạm biệt")# true
+p dict.lookup("Goodbye") # "Chào tạm biệt"
+p dict.pop # "Goodbye" => "Chào tạm biệt"
+p dict.favorite # "Hello" => "Xin chào"
+p dict.random # "Hello" => "Xin chào"
+p dict.pop # "Love" => "Tình yêu"
+p dict.pop # "Hello" => "Xin chào"
+p dict.pop # nil
+p dict.size # 0

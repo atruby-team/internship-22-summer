@@ -12,15 +12,9 @@ Output: return 0.
 =end
 
 def find_first_non_repeating(string)
-  result = -1
-  index = 0
   array_string = string.downcase.chars
-  array_string.each do |x|
-    if array_string.count(x) == 1
-      result = index
-      break
-    end
-    index += 1
-  end
-  p result
+  array_string.each_index { |index| return p index if array_string.count(array_string[index]) == 1 }
 end
+
+find_first_non_repeating("asiantech")
+find_first_non_repeating("rubyteam")

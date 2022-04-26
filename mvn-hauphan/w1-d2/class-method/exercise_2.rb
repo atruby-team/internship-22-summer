@@ -14,14 +14,19 @@ class Array
   def sum 
     result = 0
     self.each do |x|
-      if x.is_a?(Numeric)
-        result += x
+      if x.is_a?(Numeric) 
+        result += x 
       else
-        result = nil
-        break
+        return p nil
       end
     end
     p result
   end
 
 end
+
+array = [1, 2, 3, 4]
+array.sum
+
+array = [1, "a", 3, 4]
+array.sum

@@ -19,40 +19,35 @@ class StringFormat
 
   def human_name(name)
     if name.is_a?(String)
-      array = name.chars
-      array.each do |x|
-        array.delete(x) unless x =~ /[A-Za-z ]/
-      end
-      result = array.join.strip.split(" ").each { |x| x.capitalize! }
-      p result.join(" ")
+      p name.gsub(/[^A-Za-z ]/, '').strip.split(' ').map! { |x| x.capitalize! }.join(' ')
     else
       p nil
     end
   end
 
+  string = StringFormat.new
+  string.human_name("kaylene _johnson")
+
+
   def uniq(string)
-    array = []
-    string.each_char do |char|
-      array << char unless array.include?(char)
-    end
-    p array.join
+    p string.chars.uniq!.join('')
   end
+
+  string.uniq("Hello world!!!")
 
   def only_letters?(string)
     if string.is_a?(String)
-      flat = true
       string.each_char do |char|
-        unless char =~ /[A-Za-z]/
-          flat = false
-          break
-        else
-          flat = true
-        end
+        return p false unless char =~ /[A-Za-z]/
       end
-      p flat
+      p true
     else
       p nil
     end
   end
+
+  string.only_letters?("asd12d")
+  string.only_letters?("asdd")
+  string.only_letters?(1)
 
 end

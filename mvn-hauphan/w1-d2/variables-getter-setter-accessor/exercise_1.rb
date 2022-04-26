@@ -60,3 +60,17 @@ class Student
     end
   end
 end
+
+student = Student.new
+p student.first_name = "Kaylene" # "Kaylene"
+p student.last_name = "Johnson" # "Johnson"
+p student.first_name # "Kaylene"
+p student.full_name # "Kaylene Johnson"
+p student.add_course("Math") # "Math"
+p student.show # ["Math"]
+p student.add_course("Math") # false
+p student.remove_course("English") # false
+p student.add_course("English") # "English" 
+p student.remove_course("Math") # "Math"
+p student.add_course("Programming") # "Programming"
+p student.show # ["English", "Programming"]
