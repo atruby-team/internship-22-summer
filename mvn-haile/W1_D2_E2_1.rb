@@ -1,64 +1,41 @@
 class Student
+  attr_accessor :first_name
+  attr_accessor :last_name
   def initialize
     @course=[]
   end
 
-  def first_name=(first_name)
-    @first_name=first_name
-    p @first_name
-  end
-
-  def first_name
-    p @first_name
-  end
-
-  def last_name=(last_name)
-    @last_name=last_name
-    p @last_name
-  end
-
-  def last_name
-    p @last_name
-  end
-
   def full_name
-   p @first_name + " " + @last_name
+    @first_name + " " + @last_name
   end
 
-  def add_course(args1)
-    @args1 = args1
-    if @course.include?(@args1) == false
-      @course.push(@args1)
-      p @args1
-    else
-      p false
-    end
+  def add_course(course)
+    return false if @course.include? course
+    @course.push(course)
+    course
   end
 
   def show
-    p @course
+    @course
   end
 
-  def remove_course(args2)
-    @args2=args2
-    if @course.include?(@args2) == false
-      p false
-    else
-      @course.delete(@args2)
-      p @args2
-    end
+  def remove_course(course)
+    return false if !@course.include? course
+    @course.delete(course)
+    course
   end
 end
+
 student = Student.new
-student.first_name = "Kaylene"
-student.last_name = "Johnson"
-student.first_name
-student.full_name
-student.add_course("Math")
-student.show
-student.add_course("Math")
-student.remove_course("English")
-student.add_course("English")
-student.remove_course("Math")
-student.add_course("Programming")
-student.show
+p student.first_name = "Kaylene"
+p student.last_name = "Johnson"
+p student.first_name
+p student.full_name
+p student.add_course("Math")
+p student.show
+p student.add_course("Math")
+p student.remove_course("English")
+p student.add_course("English")
+p student.remove_course("Math")
+p student.add_course("Programming")
+p student.show

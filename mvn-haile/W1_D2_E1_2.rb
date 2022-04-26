@@ -1,11 +1,8 @@
 class Array
   def sum
-    result=self.map{|idx| idx.is_a?(String)}
-    if result.include?(true)
-      return nil
-    else
-      return self.reduce{|sum,idx| sum+idx}
-    end
+    return nil if self.map { |i| i.is_a? (Numeric) }.include? false
+    self.reduce("+")
   end
 end
-p [1,2,3,4].sum
+
+p [1, 2, 3, 4].sum
