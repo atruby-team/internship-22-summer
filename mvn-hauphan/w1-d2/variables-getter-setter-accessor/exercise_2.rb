@@ -45,12 +45,10 @@ class Dictionary
   end
 
   def add(vocab, desc)
-    if @vocabularies.key?(vocab)
-      false
-    else
-      @vocabularies.store(vocab, [desc, 0])
-      true
-    end
+    return false if @vocabularies.key?(vocab)
+
+    @vocabularies.store(vocab, [desc, 0])
+    true
   end
 
   def lookup(vocab)
@@ -59,12 +57,10 @@ class Dictionary
   end
 
   def remove(vocab)
-    if @vocabularies.key?(vocab)
-      @vocabularies.delete(vocab)
-      true
-    else
-      false
-    end
+    return false unless @vocabularies.key?(vocab)
+
+    @vocabularies.delete(vocab)
+    true
   end
 
   def size
@@ -72,19 +68,18 @@ class Dictionary
   end
 
   def pop
+    return nil if @vocabularies.empty?
+
     hash = {}
-    array = []
-    if @vocabularies.empty?
-      return nil
-    else
-      array.push(@vocabularies.to_a.pop)
-      @vocabularies.delete(array[0][0])
-      hash[array[0][0]] = array[0][1][0]
-      hash
-    end
+    last_key = @vocabularies.keys.last
+    hash.store(last_key, @vocabularies[last_key][0])
+    @vocabularies.delete(last_key)
+    hash
   end
 
   def update(vocab, desc)
+    return false unless @vocabularies.key?(vocab)
+
     @vocabularies.delete(vocab)
     @vocabularies.store(vocab, [desc, 0])
     true
@@ -92,19 +87,18 @@ class Dictionary
 
   def random
     hash = {}
-    array = []
-    array.push(@vocabularies.keys.shuffle[0], @vocabularies[@vocabularies.keys.shuffle[0]]) 
-    hash[array[0][0]] = array[0][1][0]
+    random_key = @vocabularies.keys.sample
+    hash.store(random_key, @vocabularies[random_key][0])
+    hash
   end
 
   def favorite
-    array = []
-    result = []
-    hash = {}
-    @vocabularies.each { |k, v| array.push(v[1]) }
-    @vocabularies.each { |k, v| result.push([k, v[0]]) if v[1] == array.max }
-    hash[result[0][0]] = result[0][1]
-    hash
+    array_count = []
+    hash_result = {}
+    @vocabularies.each { |k, v| array_count.push(v[1]) }
+    array_count = @vocabularies.detect { |k, v| v[1] == array_count.max }
+    hash_result.store(array_count[0], array_count[1][0])
+    hash_result
   end
 
 end

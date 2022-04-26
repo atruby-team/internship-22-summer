@@ -36,16 +36,14 @@ class Student
   end
   
   def full_name
-    first_name + " " + last_name
+    first_name + ' ' + last_name
   end
 
   def add_course(course_name)
-    if @courses.include?(course_name)
-      false
-    else
-      @courses.push(course_name)
-      course_name
-    end
+    return false if @courses.include?(course_name)
+
+    @courses.push(course_name)
+    course_name
   end
 
   def show
@@ -53,11 +51,9 @@ class Student
   end
 
   def remove_course(course_name)
-    if @courses.include?(course_name)
-      @courses.delete(course_name) 
-    else
-      false
-    end
+    return false unless @courses.include?(course_name)
+
+    @courses.delete(course_name) 
   end
 end
 

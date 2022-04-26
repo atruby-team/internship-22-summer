@@ -14,11 +14,9 @@ class Array
   def sum 
     result = 0
     self.each do |x|
-      if x.is_a?(Numeric) 
-        result += x 
-      else
-        return p nil
-      end
+      return p nil unless x.is_a?(Numeric) 
+     
+      result += x
     end
     p result
   end

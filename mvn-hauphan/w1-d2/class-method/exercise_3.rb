@@ -18,11 +18,9 @@ only_letters?(string): Input a string returns true if string has only letters, e
 class StringFormat
 
   def human_name(name)
-    if name.is_a?(String)
-      p name.gsub(/[^A-Za-z ]/, '').strip.split(' ').map! { |x| x.capitalize! }.join(' ')
-    else
-      p nil
-    end
+    return  p nil unless name.is_a?(String)
+
+    p name.gsub(/[^A-Za-z ]/, '').strip.split(' ').map! { |x| x.capitalize! }.join(' ')
   end
 
   string = StringFormat.new
@@ -36,14 +34,12 @@ class StringFormat
   string.uniq("Hello world!!!")
 
   def only_letters?(string)
-    if string.is_a?(String)
-      string.each_char do |char|
-        return p false unless char =~ /[A-Za-z]/
-      end
-      p true
-    else
-      p nil
+    return p nil unless string.is_a?(String)
+
+    string.each_char do |char|
+      return p false unless char =~ /[A-Za-z]/
     end
+    p true
   end
 
   string.only_letters?("asd12d")
