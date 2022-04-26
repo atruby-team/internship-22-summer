@@ -1,4 +1,4 @@
-# Repo for Ruby Internship Summber 2022
+# Repo for Ruby Internship Summer 2022
 
 ### 1. Nội dung
 Đây là nơi chứa các bài tập của các bạn khoá training summer 2022
