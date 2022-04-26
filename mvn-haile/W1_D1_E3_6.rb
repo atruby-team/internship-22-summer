@@ -14,4 +14,4 @@ output.each do |idx|
 end
 p output
 input_hash = { Bob: 7, Smith: 8, Kate: 9 }
-p input_hash.select{ |k, v| v >= 8 }
+p input_hash.select { |k, v| v >= 8 }

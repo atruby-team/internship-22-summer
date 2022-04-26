@@ -1,7 +1,7 @@
 # Exercises 3
 def Exercises3(input)
-	result=input.combination(3).to_a
-	result.map{ |idx| idx.reduce("*") }.max
+	result = input.combination(3).to_a
+	result.map { |idx| idx.reduce("*") }.max
 end
 input1 = [1, 2, 3]
 input2 = [-1, 2, 3, 4]

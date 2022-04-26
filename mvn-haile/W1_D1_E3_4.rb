@@ -1,12 +1,9 @@
 # Exercises 4
 def Exercises4(input)
   input.each do |idx|
-    if input.count(idx) >= 2 
-      return true
-    else
-      return false
-    end
+    return true if input.count(idx) >= 2 
   end
+  false
 end
 input1 = [1, 2, 3, 1]
 input2 = [1, 2, 3, 4]
