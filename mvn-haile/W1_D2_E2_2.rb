@@ -1,7 +1,6 @@
 class Dictionary
   def initialize
     @vocab = Hash.new
-    @key, @value = [], []
   end
   
   def add(vocab, description)
@@ -20,19 +19,17 @@ class Dictionary
   end
 
   def remove(vocab)
-    return false if !@vocab.key? vocab  
+    return false unless @vocab.key? vocab  
     @vocab.delete(vocab)
     true
   end
   
   def favorite
-    @vocab.each do |i, j|
-      if j[1] == @vocab.map { |idx, jdx| jdx[1] }.max
-        @key = i
-        @value = j[0]
-      end
-    end
-    @key + " => " + @value
+    count = []
+    result = Hash.new
+    @vocab.each { |key, value| count.push(value[1]) }
+    count = @vocab.detect { |key, value| value[1] == count.max }
+    result.store(count[0], count[1][0])
   end
 
   def pop
@@ -43,15 +40,15 @@ class Dictionary
   end
   
   def update(vocab, description)
-    return false if !@vocab.key? vocab
+    return false unless @vocab.key? vocab
     @vocab.delete(vocab)
     @vocab.store(vocab, [description, 0])
     true
   end
-  
+
   def random
-    keys = @vocab.keys
-    keys[rand(keys.size)] + " => " + @vocab[keys[rand(keys.size)]][0]
+    keys = @vocab.keys.sample
+    keys + " => " + @vocab[keys][0]
   end
 end
   

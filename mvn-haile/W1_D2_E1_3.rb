@@ -1,7 +1,7 @@
 class StringFormat
   def human_name(name)
     @name = name
-    @name.split(" ").map { |i| i.delete("_").capitalize }.join(" ")
+    @name.split(" ").map { |i| i.gsub(/[^a-zA-Z]/, "*").delete("*").capitalize }.join(" ")
   end
 
   def uniq(string)
@@ -11,7 +11,7 @@ class StringFormat
 
   def only_letters(letters)
     @letters = letters
-    return false if @letters.gsub(/[^a-zA-Z]/, "*").split("").include? "*"
+    @letters.gsub(/[^a-zA-Z]/, "*").split("").each { |i| return false if i == "*" }
     true
   end
 end

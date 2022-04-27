@@ -20,7 +20,7 @@ class Student
   end
 
   def remove_course(course)
-    return false if !@course.include? course
+    return false unless @course.include? course
     @course.delete(course)
     course
   end

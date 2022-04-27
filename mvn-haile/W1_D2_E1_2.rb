@@ -1,7 +1,7 @@
 class Array
   def sum
-    return nil if self.map { |i| i.is_a? (Numeric) }.include? false
-    self.reduce("+")
+    self.each { |i| return nil unless i.is_a? (Numeric) }
+    p self.reduce("+")
   end
 end
 
