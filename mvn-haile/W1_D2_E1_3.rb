@@ -1,7 +1,7 @@
 class StringFormat
   def human_name(name)
     @name = name
-    @name.split(" ").map { |i| i.gsub(/[^a-zA-Z]/, "*").delete("*").capitalize }.join(" ")
+    @name.gsub(/[^a-zA-Z ]/, '').split(' ').map(&:capitalize).join(' ')
   end
 
   def uniq(string)
