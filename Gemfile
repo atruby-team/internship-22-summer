@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'pry'
 gem 'danger'
 gem 'danger-checkstyle_format'
 gem 'rubocop', '0.57.2', require: false
