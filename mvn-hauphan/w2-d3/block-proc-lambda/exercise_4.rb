@@ -27,9 +27,9 @@ class HtmlToText
   end
 
   def show_view
-    @html.gsub!('<br>', '<div>')
-    @html.gsub!('</br>', '<div>')
+    @html.gsub!(/<br\s*[\/]?>/, '<div>')
     a = @html.split('<div>')
+    a.delete("")
     a.map! do |x| 
       if x.include?('</div>') 
         x.split('</div>')
