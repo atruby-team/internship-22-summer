@@ -2,7 +2,7 @@
 
 Tạo database có những bảng sau:
 
-users: có id, name [tên, danh, thanh danh, danh giá, tên của tuồng hát, danh tánh, tên của vật gì, danh tiếng, tiếng tăm] , address
+users: có id, name, address
 posts: có content, user_id, comment_count
 comments: có content, post_id
 Tạo dữ liệu mẫu trước để thực hiện query: 10 users, 30 posts, 60 comments
@@ -21,8 +21,19 @@ Xoá comment, yêu cầu là sau khi tạo thì comment_count của bài post gi
 =end
 
 require 'pg'
+require 'pry'
 
-# conn = PG.connect
+=begin
+
+Tạo database có những bảng sau:
+
+users: có id, name, address
+posts: có content, user_id, comment_count
+comments: có content, post_id
+Tạo dữ liệu mẫu trước để thực hiện query: 10 users, 30 posts, 60 comments
+
+=end
+
 conn = PG.connect(
   hostaddr: '127.0.0.1',
   port: 5432,
@@ -38,10 +49,19 @@ conn.exec("
 CREATE DATABASE demo;
 ")
 
+conn = PG.connect(
+  hostaddr: '127.0.0.1',
+  port: 5432,
+  user: 'postgres',
+  password: 'Trumgame9xqn98.',
+  dbname: 'demo'
+)
+
 conn.exec("
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-	id 	int ,
+DROP TABLE IF EXISTS users;")
+conn.exec("
+CREATE TABLE users(
+	id 	int,
 	name	 varchar,
 	address 	varchar
 );
@@ -64,7 +84,7 @@ VALUES
 
 conn.exec("
 DROP TABLE IF EXISTS posts;
-CREATE TABLE posts (
+CREATE TABLE posts(
 	id 	int,
 	content 	 varchar,
 	user_id	int ,
@@ -186,10 +206,10 @@ VALUES
 (60 , 'Go ', 27  );
 ")
 
-
+#Lấy ra các bài post theo page, mỗi page có 10 bài post
 def post_per_page(page)
   conn = PG.connect( dbname: 'demo' )
-  conn.exec( "SELECT * FROM posts LIMIT 10 OFFSET #{(page - 1) * 10}" ) do |result|
+  conn.exec("SELECT * FROM posts LIMIT 10 OFFSET #{(page - 1) * 10}") do |result|
     puts "     Id | Content                   | User Id          | Comment Count"
     result.each do |row|
       puts " %6d | %-25s | %-16s | %s " %
@@ -198,11 +218,12 @@ def post_per_page(page)
   end
 end
 
-post_per_page(1)
+# post_per_page(1)
 
+#Lấy ra tất cả user và số lượng bài post của user đó.
 def take_all_users_and_number_of_post
   conn = PG.connect( dbname: 'demo' )
-  conn.exec("SELECT  users.name, COUNT(posts.id) as post_count FROM posts JOIN users ON posts.user_id = users.id GROUP BY users.name") do |result|
+  conn.exec("SELECT users.name, COUNT(posts.id) as post_count FROM posts RIGHT JOIN users ON posts.user_id = users.id GROUP BY users.name") do |result|
     puts " Name                      | Post Count"
     result.each do |row|
       puts " %-25s | %s " %
@@ -213,15 +234,77 @@ end
 
 # take_all_users_and_number_of_post
 
+#Lấy ra user không có bài post nào
 def take_users_no_post
   conn = PG.connect( dbname: 'demo' )
-  conn.exec( "SELECT  users.name, COUNT(posts.id) as post_count FROM posts RIGHT JOIN users ON posts.user_id = users.id GROUP BY users.name HAVING COUNT(posts.id) = 0") do |result|
-    puts " Name "
+  conn.exec("SELECT * FROM users WHERE id NOT IN (SELECT user_id FROM posts)") do |result|
     result.each do |row|
-      puts " %-25s" %
-        row.values_at('name')
+      p row.values_at('id', 'name', 'address')
     end 
   end
 end
 
 # take_users_no_post
+
+#Lấy ra 3 user có nhiều bài post nhất.
+def take_3_user_most_post
+  conn = PG.connect( dbname: 'demo' )
+  conn.exec("SELECT users.name FROM posts RIGHT JOIN users ON posts.user_id = users.id GROUP BY users.name ORDER BY COUNT(posts.id) DESC LIMIT 3") do |result|
+    result.each do |row|
+      p row.values_at('name')
+    end 
+  end
+end
+
+# take_3_user_most_post
+
+#Tạo bài post
+def create_user(id, content, user_id, comment_count)
+  conn = PG.connect( dbname: 'demo' )
+  conn.exec("INSERT INTO posts VALUES (#{id}, '#{content}', #{user_id}, #{comment_count})")
+end
+
+# create_user(31, "Who are you?", 7, 22)
+# post_per_page(4)
+
+#Sửa nội dung bài post- xoá bài post, yêu cầu sau khi xoá thì xoá cả comment
+def update_content_post(id, new_content)
+  conn = PG.connect( dbname: 'demo' )
+  conn.exec("UPDATE posts SET content = '#{new_content}' WHERE id = #{id}")
+end
+
+# post_per_page(1)
+# update_content_post(8, "Too late!")
+# post_per_page(3)
+
+def delete_post(id)
+  conn = PG.connect( dbname: 'demo' )
+  conn.exec("DELETE FROM posts WHERE id = #{id}")
+  conn.exec("DELETE FROM comments WHERE post_id = #{id}")
+end
+
+# post_per_page(1)
+# delete_post(8)
+# post_per_page(3)
+
+#Tạo comment cho bài post, yêu cầu là sau khi tạo thì comment_count của bài post tăng lên 1
+def create_comment_for_post(id, content, post_id)
+  conn = PG.connect( dbname: 'demo' )
+  conn.exec("INSERT INTO comments VALUES (#{id}, '#{content}', #{post_id})")
+  conn.exec("UPDATE posts SET comment_count = comment_count + 1 WHERE id = #{post_id}")
+end
+
+# post_per_page(1)
+# create_comment_for_post(61, 'Ha ha ha', 8)
+# post_per_page(3)
+
+#Xoá comment, yêu cầu là sau khi tạo thì comment_count của bài post giảm 1
+def delete_comment(id)
+  conn = PG.connect( dbname: 'demo' )
+  conn.exec("UPDATE posts SET comment_count = comment_count - 1 WHERE id IN (SELECT post_id FROM comments WHERE id = #{id})")
+  conn.exec("DELETE FROM comments WHERE id = #{id}")
+end
+
+post_per_page(1)
+delete_comment(8)
+post_per_page(3)
