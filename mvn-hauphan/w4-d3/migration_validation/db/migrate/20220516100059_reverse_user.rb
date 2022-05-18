@@ -14,8 +14,12 @@ class ReverseUser < ActiveRecord::Migration[7.0]
     end
     arr.each do |obj|
       leader_ids.each do |lead|
-        Team.find(lead.first).update!(leader_id: obj.last) if obj.first == lead.last
-        Team.find(lead.first).update!(leader_id: obj.first) if obj.last == lead.last
+        next unless obj.include?(lead.last)
+        if obj.first == lead.last
+          Team.find(lead.first).update!(leader_id: obj.last) 
+        else
+          Team.find(lead.first).update!(leader_id: obj.first) 
+        end
       end
     end
   end

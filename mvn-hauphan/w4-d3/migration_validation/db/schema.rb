@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_16_100059) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password", null: false
-    t.string "gender", null: false
+    t.integer "gender", null: false
     t.boolean "single?"
     t.string "favorite_song"
     t.integer "team_id"
