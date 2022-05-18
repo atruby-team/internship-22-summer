@@ -1,9 +1,22 @@
 class ReverseUser < ActiveRecord::Migration[7.0]
   def up
-    term = []
-    User.all.reverse_each { |x| term.push(x) }
-    term.each_with_index { |x, index| x.id = index + 1 }
-    User.all.drop(User.all.size)
-    term.each { |x| User.create(email: x.email, password: x.password, gender: x.gender, single?: x.single?, favorite_song: x.favorite_song, team_id: x.team_id) }
+    user_ids = User.pluck(:id)
+    user_reverse_ids = user_ids.reverse
+    temp_id = User.ids.max
+    arr = user_ids.zip(user_reverse_ids).map { |x| x.sort }.uniq
+    leader_ids = Team.pluck(:id, :leader_id)
+    Team.all.update_all(leader_id: nil)
+    arr.each do |obj|
+      next if obj.first == obj.last
+      User.find(obj.first).update!(id: temp_id + 1)
+      User.find(obj.last).update!(id: obj.first)
+      User.find(temp_id + 1).update!(id: obj.last)
+    end
+    arr.each do |obj|
+      leader_ids.each do |lead|
+        Team.find(lead.first).update!(leader_id: obj.last) if obj.first == lead.last
+        Team.find(lead.first).update!(leader_id: obj.first) if obj.last == lead.last
+      end
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_16_072054) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_16_100059) do
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.integer "leader_id"
@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_16_072054) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password", null: false
-    t.integer "gender", null: false
+    t.string "gender", null: false
     t.boolean "single?"
     t.string "favorite_song"
     t.integer "team_id"

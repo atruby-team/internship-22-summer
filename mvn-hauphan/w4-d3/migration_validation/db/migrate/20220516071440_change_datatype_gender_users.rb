@@ -1,15 +1,8 @@
 class ChangeDatatypeGenderUsers < ActiveRecord::Migration[7.0]
   def up
-    User.all.each do |user|
-      case user.gender
-      when 'Nam'
-        user.update(gender: 1)
-      when 'Nữ'
-        user.update(gender: 2)
-      else
-        user.update(gender: 3)
-      end
-    end
+    User.where(gender: 'Nam').update_all(gender: 1)
+    User.where(gender: 'Nữ').update_all(gender: 2)
+    User.where(gender: 'Giới tính khác').update_all(gender: 3)
 
     change_table :users do |t|
       t.change :gender, :integer
@@ -21,15 +14,8 @@ class ChangeDatatypeGenderUsers < ActiveRecord::Migration[7.0]
       t.change :gender, :string
     end
 
-    User.all.each do |user|
-      case user.gender
-      when "1"
-        user.update(gender: 'Nam')
-      when "2"
-        user.update(gender: 'Nữ')
-      else
-        user.update(gender: 'Giới tính khác')
-      end
-    end
+    User.where(gender: '1').update_all(gender: 'Nam')
+    User.where(gender: '2').update_all(gender: 'Nữ')
+    User.where(gender: '3').update_all(gender: 'Giới tính khác')
   end
 end
