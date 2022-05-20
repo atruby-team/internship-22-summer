@@ -6,7 +6,7 @@ class CreateCustomers < ActiveRecord::Migration[7.0]
       t.string :title
       t.string :email
       t.integer :visit
-      t.integer :orders_count, default: 0
+      t.integer :orders_count
       t.integer :lock_version
 
       t.timestamps

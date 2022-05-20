@@ -31,3 +31,4 @@
 
 en:
   hello: "Hello world"
+  error_message: "can't be greater than total"
